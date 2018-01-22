@@ -19,5 +19,5 @@ fs.readFile('./path.txt', function(err, data){
     if(err) throw err.message;
     
     console.log(data.toString());
-    console.log('Dane odczytane z pliky'.blue);
+    console.log('Dane odczytane z pliku'.blue);
 })
