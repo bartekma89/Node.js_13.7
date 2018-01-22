@@ -26,6 +26,3 @@ readStream.on('data', function (chunk) {
 })
 
 readStream.pipe(process.stdout);
-readStream.on('end', function() {
-    console.log('Ended piping');
-})
