@@ -1,23 +1,33 @@
 var fs = require('fs');
 var Color = require('colors');
 
-fs.readdir(__dirname, function(err, files) {
-    if(err) throw err.message;
-    
-    files.forEach(function(file) {
-        console.log(file);
-    })
-    
-    fs.writeFile('./path.txt', files, function(err) {
-        if(err) throw err.message;
-        
-        console.log('Dane zapisane do pliku'.green);
-    })
-})
+var fileToStoreData = 'path.txt';
 
-fs.readFile('./path.txt', function(err, data){
-    if(err) throw err.message;
-    
-    console.log(data.toString());
-    console.log('Dane odczytane z pliku'.blue);
-})
+var writeContent = function(fileData) {
+    fs.readdir(__dirname, function(err, files) {
+        if (err) throw err.message;
+
+        files.forEach(function(file) {
+            console.log(file);
+        });
+
+        var writeStream = fs.createWriteStream(fileData, {
+            encoding: 'utf8',
+        });
+        writeStream.write(files.toString());
+        writeStream.end();
+        writeStream.on('finish', function() {
+            console.log('Save data completed'.green);
+            readContent(fileData);
+        });
+    });
+};
+
+var readContent = function(fileData) {
+    fs.createReadStream(fileData).on('data', function(chunk) {
+        console.log('Data read from file'.blue);
+        console.log(chunk.toString());
+    });
+};
+
+writeContent(fileToStoreData);
